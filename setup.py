@@ -8,6 +8,7 @@ setup(
     author="Rockefeller Archive Center",
     author_email="archive@rockarch.org",
     version="0.1.0",
+    license='MIT',
     packages=find_packages(),
     zip_safe=False,
     classifiers=[
