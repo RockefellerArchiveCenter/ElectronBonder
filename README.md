@@ -1,6 +1,9 @@
 # ElectronBonder
 A client library for working with the Project Electron APIs.
 
+## Credits
+This code is basically stolen from [ArchivesSnake](https://github.com/archivesspace-labs/ArchivesSnake/).
+
 ## Requirements
 ElectronBonder has the following requirements.
 
@@ -39,3 +42,7 @@ Allowed configuration values are:
 | baseurl     | The location (including port if not on port 80) of the application's API root |
 | username    | Username for authorization                                                    |
 | password    | Password for authorization                                                    |
+
+
+## License
+ElectronBonder source code is released under an MIT License.
