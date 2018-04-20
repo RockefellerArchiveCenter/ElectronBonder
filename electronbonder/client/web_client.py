@@ -1,5 +1,6 @@
 from requests import Session
-from urllib.parse import urljoin, quote
+from six.moves.urllib.parse import urljoin
+from six import add_metaclass
 import json
 
 
@@ -30,7 +31,8 @@ class ElectronBondProxyMethods(type):
             setattr(cls, meth, fn)
 
 
-class ElectronBond(metaclass=ElectronBondProxyMethods):
+@add_metaclass(ElectronBondProxyMethods)
+class ElectronBond(object):
     '''ElectronBonder Web Client'''
 
     def __init__(self, **config):

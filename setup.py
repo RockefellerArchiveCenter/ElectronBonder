@@ -17,7 +17,7 @@ setup(
         'Intended Audience :: Other Audience',
         'License :: OSI Approved :: MIT License',
     ],
-    python_requires="~=3.4",
+    # python_requires="~=3.4",
     install_requires=[
         "requests",
     ],
