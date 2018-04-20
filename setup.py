@@ -7,7 +7,7 @@ setup(
     long_description="""A client library for interacting Project Electron applications via their REST APIs.""",
     author="Rockefeller Archive Center",
     author_email="archive@rockarch.org",
-    version="0.1.0",
+    version="0.2.0",
     license='MIT',
     packages=find_packages(),
     zip_safe=False,
@@ -17,8 +17,9 @@ setup(
         'Intended Audience :: Other Audience',
         'License :: OSI Approved :: MIT License',
     ],
-    # python_requires="~=3.4",
+    python_requires=">=2.7",
     install_requires=[
         "requests",
+        "six",
     ],
 )
