@@ -76,12 +76,13 @@ class ElectronBond(object):
         current_page = self.get(url, params=params, **kwargs)
         current_json = current_page.json()
         # Regular paged object
-        while len(current_json['results']) > 0:
-            for obj in current_json['results']:
-                yield obj
-            if not current_json.get('next'): break
-            params['page'] += 1
-            current_page = self.get(url, params=params)
-            current_json = current_page.json()
-        else:
+        try:
+            while len(current_json['results']) > 0:
+                for obj in current_json['results']:
+                    yield obj
+                if not current_json.get('next'): break
+                params['page'] += 1
+                current_page = self.get(url, params=params)
+                current_json = current_page.json()
+        except:
             raise ElectronBondReturnError("get_paged doesn't know how to handle {}".format(current_json))
