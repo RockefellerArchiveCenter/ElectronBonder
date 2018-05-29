@@ -7,6 +7,9 @@ import json
 class ElectronBondAuthError(Exception): pass
 
 
+class ElectronBondReturnError(Exception): pass
+
+
 def http_meth_factory(meth):
     '''Utility method for producing HTTP proxy methods for ElectronBondProxyMethods mixin class.
 
@@ -62,3 +65,23 @@ class ElectronBond(object):
             session_token = json.loads(resp.text)['token']
             self.session.headers['Authorization'] = 'JWT {}'.format(session_token)
             return session_token
+
+    def get_paged(self, url, *args, **kwargs):
+        '''get list of json objects from urls of paged items'''
+        params = {"page": 1}
+        if "params" in kwargs:
+            params.update(**kwargs['params'])
+            del kwargs['params']
+
+        current_page = self.get(url, params=params, **kwargs)
+        current_json = current_page.json()
+        # Regular paged object
+        while len(current_json['results']) > 0:
+            for obj in current_json['results']:
+                yield obj
+            if not current_json.get('next'): break
+            params['page'] += 1
+            current_page = self.get(url, params=params)
+            current_json = current_page.json()
+        else:
+            raise ElectronBondReturnError("get_paged doesn't know how to handle {}".format(current_json))
