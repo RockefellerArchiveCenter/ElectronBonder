@@ -1,7 +1,9 @@
 from requests import Session
-from six.moves.urllib.parse import urljoin
 from six import add_metaclass
 import json
+from requests.adapters import HTTPAdapter
+from urllib.parse import urlparse
+from urllib3.util.retry import Retry
 
 
 class ElectronBondAuthError(Exception): pass
@@ -16,10 +18,26 @@ def http_meth_factory(meth):
     Urls are prefixed with the baseurl defined
     '''
     def http_method(self, url, *args, **kwargs):
-        full_url = urljoin(self.config['baseurl'], url)
+        url = urlparse(url)
+        full_url = "/".join([self.config['baseurl'].rstrip("/"), url.path.lstrip("/")])
         result = getattr(self.session, meth)(full_url, *args, **kwargs)
         return result
     return http_method
+
+
+def retry_session(retries, session=None, backoff_factor=0.3, status_forcelist=(500, 502, 503, 504)):
+    session = session or Session()
+    retry = Retry(
+        total=retries,
+        read=retries,
+        connect=retries,
+        backoff_factor=backoff_factor,
+        status_forcelist=status_forcelist,
+    )
+    adapter = HTTPAdapter(max_retries=retry)
+    session.mount('http://', adapter)
+    session.mount('https://', adapter)
+    return session
 
 
 class ElectronBondProxyMethods(type):
@@ -42,29 +60,9 @@ class ElectronBond(object):
         self.config = {}
         self.config.update(config)
 
-        if not hasattr(self, 'session'): self.session = Session()
+        if not hasattr(self, 'session'): self.session = retry_session(retries=5)
         self.session.headers.update({'Accept': 'application/json',
                                      'User-Agent': 'ElectronBond/0.1'})
-
-    def authorize(self, username=None, password=None):
-        '''Authorizes the client against the configured application instance.
-
-        Parses the JSON response, and stores the returned session token in the authorization header for future requests.'''
-
-        username = username or self.config['username']
-        password = password or self.config['password']
-
-        resp = self.session.post(
-            urljoin(self.config['baseurl'], 'get-token/'),
-            data={"password": password, "username": username}
-        )
-
-        if resp.status_code != 200:
-            raise ElectronBondAuthError("Failed to authorize ElectronBond with status: {}".format(resp.status_code))
-        else:
-            session_token = json.loads(resp.text)['token']
-            self.session.headers['Authorization'] = 'JWT {}'.format(session_token)
-            return session_token
 
     def get_paged(self, url, *args, **kwargs):
         '''get list of json objects from urls of paged items'''
