@@ -64,6 +64,24 @@ class ElectronBond(object):
         self.session.headers.update({'Accept': 'application/json',
                                      'User-Agent': 'ElectronBond/0.1'})
 
+    def authorize(self, username=None, password=None):
+        '''Authorizes the client against the configured microservice instance.'''
+
+        username = username or self.config['username']
+        password = password or self.config['password']
+
+        resp = self.session.post(
+            "/".join([self.config['baseurl'].rstrip("/"), 'get-token/']),
+            data={"password": password, "username": username}
+        )
+
+        if resp.status_code != 200:
+            raise ElectronBondAuthError("Failed to authorize with status: {}".format(resp.status_code))
+        else:
+            session_token = json.loads(resp.text)['token']
+            self.session.headers['Authorization'] = "JWT {}".format(session_token)
+            return session_token
+
     def get_paged(self, url, *args, **kwargs):
         '''get list of json objects from urls of paged items'''
         params = {"page": 1}
