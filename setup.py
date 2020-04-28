@@ -7,7 +7,7 @@ setup(
     long_description="""A client library for interacting Project Electron applications via their REST APIs.""",
     author="Rockefeller Archive Center",
     author_email="archive@rockarch.org",
-    version="0.6",
+    version="0.6.1",
     license='MIT',
     packages=find_packages(),
     zip_safe=False,

@@ -113,7 +113,6 @@ class ElectronBond(object):
         current_page = self.get(url, params=params, **kwargs)
         current_json = current_page.json()
         try:
-            print(current_json)
             while len(current_json['results']) > 0:
                 for obj in reversed(current_json['results']):
                     yield obj
