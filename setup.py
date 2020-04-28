@@ -1,10 +1,14 @@
-from setuptools import setup, find_packages
+from setuptools import find_packages, setup
+
+with open("README.md", "r") as fh:
+    long_description = fh.read()
 
 setup(
     name="ElectronBonder",
     url="https://github.com/RockefellerArchiveCenter/ElectronBonder",
     description="Project Electron Client Library",
-    long_description="""A client library for interacting Project Electron applications via their REST APIs.""",
+    long_description=long_description,
+    long_description_content_type="text/markdown",
     author="Rockefeller Archive Center",
     author_email="archive@rockarch.org",
     version="0.6.1",
