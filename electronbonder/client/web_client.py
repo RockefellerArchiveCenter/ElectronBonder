@@ -100,5 +100,31 @@ class ElectronBond(object):
                 params['page'] += 1
                 current_page = self.get(url, params=params)
                 current_json = current_page.json()
-        except:
+        except Exception:
+            raise ElectronBondReturnError("get_paged doesn't know how to handle {}".format(current_json))
+
+    def get_paged_reverse(self, url, *args, **kwargs):
+        """get list of json objects from urls of paged items, starting from the last"""
+        params = {"page": "last"}
+        if "params" in kwargs:
+            params.update(**kwargs['params'])
+            del kwargs['params']
+
+        current_page = self.get(url, params=params, **kwargs)
+        current_json = current_page.json()
+        try:
+            print(current_json)
+            while len(current_json['results']) > 0:
+                for obj in reversed(current_json['results']):
+                    yield obj
+                if not current_json.get('previous'):
+                    break
+                prev = current_json.get('previous').split("=")
+                if len(prev) > 1:
+                    params['page'] = prev[1]
+                else:
+                    del params['page']
+                current_page = self.get(url, params=params)
+                current_json = current_page.json()
+        except Exception:
             raise ElectronBondReturnError("get_paged doesn't know how to handle {}".format(current_json))
