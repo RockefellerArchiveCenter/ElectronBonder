@@ -132,8 +132,8 @@ class ElectronBond(object):
                 prev_url = urlparse(current_json.get("previous"))
                 query = parse_qs(prev_url.query)
                 prev = query.get("page")
-                if len(prev) > 1:
-                    params["page"] = prev
+                if prev:
+                    params["page"] = prev[0]
                 else:
                     del params["page"]
                 current_page = self.get(url, params=params)
