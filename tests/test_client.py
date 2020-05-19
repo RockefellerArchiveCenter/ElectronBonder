@@ -1,5 +1,6 @@
 import json
 import unittest
+from unittest.mock import patch
 
 from electronbonder.client import ElectronBond, ElectronBondAuthError
 
@@ -15,7 +16,7 @@ class TestClient(unittest.TestCase):
             username="username",
             password="password")
 
-    @unittest.mock.patch("requests.Session.post")
+    @patch("requests.Session.post")
     def test_authorize(self, mock_post):
         token = "token_value"
         mock_post.return_value.status_code = 200
@@ -27,7 +28,7 @@ class TestClient(unittest.TestCase):
             self.client.authorize()
         mock_post.reset_mock()
 
-    @unittest.mock.patch("requests.Session.get")
+    @patch("requests.Session.get")
     def test_get_paged(self, mock_get):
         list(self.client.get_paged(PATH))
         mock_get.assert_called_once()
@@ -35,7 +36,7 @@ class TestClient(unittest.TestCase):
             '{}/{}'.format(BASEURL, PATH), params={'page': 1})
         mock_get.reset_mock()
 
-    @unittest.mock.patch("electronbonder.client.Session.get")
+    @patch("electronbonder.client.Session.get")
     def test_get_paged_reverse(self, mock_get):
         list(self.client.get_paged_reverse(PATH))
         mock_get.assert_called_once()
