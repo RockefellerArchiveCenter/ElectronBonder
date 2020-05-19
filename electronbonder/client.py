@@ -1,5 +1,5 @@
 import json
-from urllib.parse import urlparse
+from urllib.parse import parse_qs, urlparse
 
 from requests import Session
 from requests.adapters import HTTPAdapter
@@ -129,9 +129,11 @@ class ElectronBond(object):
                     yield obj
                 if not current_json.get("previous"):
                     break
-                prev = current_json.get("previous").split("=")
+                prev_url = urlparse(current_json.get("previous"))
+                query = parse_qs(prev_url.query)
+                prev = query.get("page")
                 if len(prev) > 1:
-                    params["page"] = prev[1]
+                    params["page"] = prev
                 else:
                     del params["page"]
                 current_page = self.get(url, params=params)
