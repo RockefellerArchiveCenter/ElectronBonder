@@ -50,7 +50,7 @@ class ElectronBondProxyMethods(type):
     """Metaclass to set up proxy methods for all requests-supported HTTP methods"""
     def __init__(cls, name, parents, dct):
 
-        for meth in ("get", "post", "head", "put", "delete", "options",):
+        for meth in ("get", "post", "head", "patch", "put", "delete", "options",):
             fn = http_meth_factory(meth)
             fn.__name__ = meth
             fn.__doc__ = """Proxied :meth:`requests.Session.{}` method from :class:`requests.Session`""".format(
