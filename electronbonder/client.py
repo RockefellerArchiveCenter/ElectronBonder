@@ -73,15 +73,12 @@ class ElectronBond(object):
         self.session.headers.update({"Accept": "application/json",
                                      "User-Agent": "ElectronBond/0.1"})
 
-    def authorize(self, username=None, password=None):
+    def authorize(self):
         """Authorizes the client against the configured microservice instance."""
-
-        username = username or self.config["username"]
-        password = password or self.config["password"]
 
         resp = self.session.post(
             "/".join([self.config["baseurl"].rstrip("/"), "get-token/"]),
-            data={"password": password, "username": username})
+            data={"password": self.config["password"], "username": self.config["username"]})
 
         if resp.status_code != 200:
             raise ElectronBondAuthError(
