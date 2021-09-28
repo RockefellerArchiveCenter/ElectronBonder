@@ -1,41 +1,26 @@
 # ElectronBonder
 A client library for working with the Project Electron APIs.
 
-## Credits
-This code is basically stolen from [ArchivesSnake](https://github.com/archivesspace-labs/ArchivesSnake/).
+## Getting started
 
-## Requirements
-ElectronBonder has the following requirements.
-
-- Python 3.4 or higher
-- ability to install packages via pip ([Pipenv](https://docs.pipenv.org/) is recommended for development)
-
-## Installation
-The easiest way to install ElectronBonder is via pip:
+Make sure this library is installed:
 
       pip3 install ElectronBonder
 
-You'll need an internet connection to fetch ElectronBonder's dependencies.
 
-## Usage
-To start, you must create a client with a baseurl:
+Then create a client with a baseurl, a username and a password:
 
 ``` python
 from electronbonder.client import ElectronBond
 
-client = ElectronBond(baseurl="http://my.aspace.backend.url.edu:4567")
+client = ElectronBond(
+            baseurl="http://my.aspace.backend.url.edu:4567",
+            username="admin",
+            password="TopSecr3t")
 ```
 
-
-## Configuration
-
-As per the example above, the client object should be configured by passing it arguments during creation.
-
-Allowed configuration values are:
-
-| **Setting** | **Description**                                                               |
-|-------------|-------------------------------------------------------------------------------|
-| baseurl     | The location (including port if not on port 80) of the application's API root |
+## Credits
+This code is basically stolen from [ArchivesSnake](https://github.com/archivesspace-labs/ArchivesSnake/).
 
 
 ## License
