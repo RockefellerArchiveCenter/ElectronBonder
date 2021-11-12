@@ -1,5 +1,5 @@
 import json
-from urllib.parse import parse_qs, urlparse
+from urllib.parse import urlparse
 
 from requests import Session
 from requests.adapters import HTTPAdapter
@@ -106,34 +106,6 @@ class ElectronBond(object):
                 if not current_json.get("next"):
                     break
                 params["page"] += 1
-                current_page = self.get(url, params=params)
-                current_json = current_page.json()
-        except Exception:
-            raise ElectronBondReturnError(
-                "get_paged doesn't know how to handle {}".format(current_json))
-
-    def get_paged_reverse(self, url, *args, **kwargs):
-        """get list of json objects from urls of paged items, starting from the last"""
-        params = {"page": "last"}
-        if "params" in kwargs:
-            params.update(**kwargs["params"])
-            del kwargs["params"]
-
-        current_page = self.get(url, params=params, **kwargs)
-        current_json = current_page.json()
-        try:
-            while len(current_json["results"]) > 0:
-                for obj in reversed(current_json["results"]):
-                    yield obj
-                if not current_json.get("previous"):
-                    break
-                prev_url = urlparse(current_json.get("previous"))
-                query = parse_qs(prev_url.query)
-                prev = query.get("page")
-                if prev:
-                    params["page"] = prev[0]
-                else:
-                    del params["page"]
                 current_page = self.get(url, params=params)
                 current_json = current_page.json()
         except Exception:
