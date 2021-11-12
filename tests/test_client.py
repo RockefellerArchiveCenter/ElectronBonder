@@ -1,6 +1,6 @@
 import json
 import unittest
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 
 from electronbonder.client import ElectronBond, ElectronBondAuthError
 
@@ -26,7 +26,6 @@ class TestClient(unittest.TestCase):
         with self.assertRaises(ElectronBondAuthError):
             mock_post.return_value.status_code = 404
             self.client.authorize()
-        mock_post.reset_mock()
 
     @patch("requests.Session.get")
     def test_get_paged(self, mock_get):
@@ -36,10 +35,17 @@ class TestClient(unittest.TestCase):
             '{}/{}'.format(BASEURL, PATH), params={'page': 1})
         mock_get.reset_mock()
 
-    @patch("electronbonder.client.Session.get")
-    def test_get_paged_reverse(self, mock_get):
-        list(self.client.get_paged_reverse(PATH))
+        list(self.client.get_paged(PATH, params={"page": 4}))
         mock_get.assert_called_once()
         mock_get.assert_called_with(
-            '{}/{}'.format(BASEURL, PATH), params={'page': 'last'})
+            '{}/{}'.format(BASEURL, PATH), params={'page': 4})
+
+        expected_results = {"foo": "bar"}
+        results_mock = Mock()
+        results_mock.side_effect = [
+            {"results": [expected_results], "next": True},
+            {"results": [expected_results], "next": False}]
+        mock_get.return_value.json = results_mock
+        results = list(self.client.get_paged(PATH))
+        self.assertEqual(results, [expected_results, expected_results])
         mock_get.reset_mock()
