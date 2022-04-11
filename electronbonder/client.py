@@ -80,7 +80,7 @@ class ElectronBond(object):
             "/".join([self.config["baseurl"].rstrip("/"), "get-token/"]),
             data={"password": self.config["password"], "username": self.config["username"]})
 
-        if resp.status_code != 200:
+        if resp.status_code not in [200, 201]:
             raise ElectronBondAuthError(
                 "Failed to authorize with status: {}".format(
                     resp.status_code))
