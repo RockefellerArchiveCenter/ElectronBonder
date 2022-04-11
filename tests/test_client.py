@@ -22,6 +22,8 @@ class TestClient(unittest.TestCase):
         mock_post.return_value.status_code = 200
         mock_post.return_value.text = json.dumps({"token": token})
         resp = self.client.authorize()
+        mock_post.return_value.status_code = 201
+        resp = self.client.authorize()
         self.assertEqual(token, resp)
         with self.assertRaises(ElectronBondAuthError):
             mock_post.return_value.status_code = 404

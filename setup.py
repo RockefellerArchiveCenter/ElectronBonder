@@ -11,7 +11,7 @@ setup(
     long_description_content_type="text/markdown",
     author="Rockefeller Archive Center",
     author_email="archive@rockarch.org",
-    version="1.0",
+    version="1.1",
     license='MIT',
     packages=find_packages(),
     zip_safe=False,
@@ -20,7 +20,7 @@ setup(
         'Intended Audience :: Other Audience',
         'License :: OSI Approved :: MIT License',
     ],
-    python_requires=">=2.7",
+    python_requires=">=3.10",
     install_requires=[
         "requests",
         "six",
