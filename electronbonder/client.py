@@ -1,8 +1,10 @@
 import json
 from urllib.parse import urlparse
 
+from oauthlib.oauth2 import BackendApplicationClient
 from requests import Session
 from requests.adapters import HTTPAdapter
+from requests_oauthlib import OAuth2Session
 from six import add_metaclass
 from urllib3.util.retry import Retry
 
@@ -89,6 +91,21 @@ class ElectronBond(object):
             self.session.headers["Authorization"] = "JWT {}".format(
                 session_token)
             return session_token
+
+    def authorize_oauth(self):
+        """Authorizes the client using a configured OAuth provider."""
+        try:
+            client = BackendApplicationClient(
+                client_id=self.config["oauth_client_id"])
+            oauth = OAuth2Session(client=client)
+            token = oauth.fetch_token(
+                token_url=f"{self.config['oauth_client_baseurl']}/oauth2/token",
+                client_id=self.config["oauth_client_id"],
+                client_secret=self.config["oauth_client_secret"])
+        except Exception as e:
+            raise ElectronBondAuthError(
+                f"Failed to authorize OAuth with message: {str(e)}")
+        self.session.headers["Authorization"] = token["access_token"]
 
     def get_paged(self, url, *args, **kwargs):
         """get list of json objects from urls of paged items"""

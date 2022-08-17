@@ -11,7 +11,7 @@ setup(
     long_description_content_type="text/markdown",
     author="Rockefeller Archive Center",
     author_email="archive@rockarch.org",
-    version="1.1",
+    version="2.0",
     license='MIT',
     packages=find_packages(),
     zip_safe=False,
