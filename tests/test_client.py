@@ -5,6 +5,9 @@ from unittest.mock import Mock, patch
 from electronbonder.client import ElectronBond, ElectronBondAuthError
 
 BASEURL = "http://localhost:8007"
+OAUTH_BASEURL = "https://awscognito.com"
+OAUTH_CLIENT_ID = "123456789"
+OAUTH_CLIENT_SECRET = "987654321"
 PATH = "custom/path"
 
 
@@ -14,7 +17,10 @@ class TestClient(unittest.TestCase):
         self.client = ElectronBond(
             baseurl=BASEURL,
             username="username",
-            password="password")
+            password="password",
+            oauth_client_baseurl=OAUTH_BASEURL,
+            oauth_client_id=OAUTH_CLIENT_ID,
+            oauth_client_secret=OAUTH_CLIENT_SECRET)
 
     @patch("requests.Session.post")
     def test_authorize(self, mock_post):
@@ -28,6 +34,17 @@ class TestClient(unittest.TestCase):
         with self.assertRaises(ElectronBondAuthError):
             mock_post.return_value.status_code = 404
             self.client.authorize()
+
+    @patch("requests_oauthlib.OAuth2Session.fetch_token")
+    def test_authorize_oauth(self, mock_token):
+        token = "12345"
+        mock_token.return_value = {"access_token": token}
+        self.client.authorize_oauth()
+        self.assertEqual(self.client.session.headers["Authorization"], token)
+        mock_token.assert_called_with(
+            token_url=f"{OAUTH_BASEURL}/oauth2/token",
+            client_id=OAUTH_CLIENT_ID,
+            client_secret=OAUTH_CLIENT_SECRET)
 
     @patch("requests.Session.get")
     def test_get_paged(self, mock_get):
