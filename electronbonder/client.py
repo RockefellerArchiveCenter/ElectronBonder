@@ -105,7 +105,7 @@ class ElectronBond(object):
         except Exception as e:
             raise ElectronBondAuthError(
                 f"Failed to authorize OAuth with message: {str(e)}")
-        self.session.headers["Authorization"] = token["access_token"]
+        self.session.headers["Authorization"] = f"Bearer {token['access_token']}"
 
     def get_paged(self, url, *args, **kwargs):
         """get list of json objects from urls of paged items"""
