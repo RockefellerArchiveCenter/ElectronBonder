@@ -40,7 +40,9 @@ class TestClient(unittest.TestCase):
         token = "12345"
         mock_token.return_value = {"access_token": token}
         self.client.authorize_oauth()
-        self.assertEqual(self.client.session.headers["Authorization"], token)
+        self.assertEqual(
+            self.client.session.headers["Authorization"],
+            f"Bearer {token}")
         mock_token.assert_called_with(
             token_url=f"{OAUTH_BASEURL}/oauth2/token",
             client_id=OAUTH_CLIENT_ID,
