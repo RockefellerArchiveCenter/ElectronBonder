@@ -88,7 +88,7 @@ class ElectronBond(object):
                     resp.status_code))
         else:
             session_token = json.loads(resp.text)["token"]
-            self.session.headers["Authorization"] = "JWT {}".format(
+            self.session.headers["Authorization"] = "Bearer {}".format(
                 session_token)
             return session_token
 
