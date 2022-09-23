@@ -11,7 +11,7 @@ setup(
     long_description_content_type="text/markdown",
     author="Rockefeller Archive Center",
     author_email="archive@rockarch.org",
-    version="2.1",
+    version="2.1.1",
     license='MIT',
     packages=find_packages(),
     zip_safe=False,
@@ -23,6 +23,7 @@ setup(
     python_requires=">=3.10",
     install_requires=[
         "requests",
+        "requests-oauthlib",
         "six",
     ],
 )
