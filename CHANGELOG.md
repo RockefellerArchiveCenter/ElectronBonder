@@ -1,5 +1,16 @@
 # Changelog
 
+## [2.2.6](https://github.com/RockefellerArchiveCenter/ElectronBonder/compare/ElectronBonder-v2.2.5...ElectronBonder-v2.2.6) (2026-09-08)
+
+
+### Bug Fixes
+
+* **deps:** Scheduled dependency updates ([9deebce](https://github.com/RockefellerArchiveCenter/ElectronBonder/commit/9deebce80e00610b9be4c45ca4ed4ff798f6df82))
+* **deps:** Scheduled dependency updates ([9deebce](https://github.com/RockefellerArchiveCenter/ElectronBonder/commit/9deebce80e00610b9be4c45ca4ed4ff798f6df82))
+* **deps:** Scheduled dependency updates ([eb5f370](https://github.com/RockefellerArchiveCenter/ElectronBonder/commit/eb5f37045e9ea63ad2122ee0ab86715887ae1c11))
+* **deps:** Scheduled dependency updates ([eb5f370](https://github.com/RockefellerArchiveCenter/ElectronBonder/commit/eb5f37045e9ea63ad2122ee0ab86715887ae1c11))
+* **deps:** Scheduled dependency updates ([a036d91](https://github.com/RockefellerArchiveCenter/ElectronBonder/commit/a036d91cee957605868b5af2b9aafdb9f649822b))
+
 ## [2.2.5](https://github.com/RockefellerArchiveCenter/ElectronBonder/compare/ElectronBonder-v2.2.4...ElectronBonder-v2.2.5) (2026-08-03)
 
 
