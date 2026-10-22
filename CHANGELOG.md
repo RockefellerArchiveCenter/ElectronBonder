@@ -1,5 +1,16 @@
 # Changelog
 
+## [2.2.8](https://github.com/RockefellerArchiveCenter/ElectronBonder/compare/ElectronBonder-v2.2.7...ElectronBonder-v2.2.8) (2026-10-22)
+
+
+### Bug Fixes
+
+* update pip ([668be57](https://github.com/RockefellerArchiveCenter/ElectronBonder/commit/668be57ceeef009361cc5ab0240ac28bd2616425))
+* update pip ([668be57](https://github.com/RockefellerArchiveCenter/ElectronBonder/commit/668be57ceeef009361cc5ab0240ac28bd2616425))
+* update pip ([97f04c0](https://github.com/RockefellerArchiveCenter/ElectronBonder/commit/97f04c080492adaa7b68879c48f5a9a190d4f496))
+* update pip ([97f04c0](https://github.com/RockefellerArchiveCenter/ElectronBonder/commit/97f04c080492adaa7b68879c48f5a9a190d4f496))
+* update pip ([a820128](https://github.com/RockefellerArchiveCenter/ElectronBonder/commit/a8201280d7a147951bef58e0c4f50c47076fa7c3))
+
 ## [2.2.7](https://github.com/RockefellerArchiveCenter/ElectronBonder/compare/ElectronBonder-v2.2.6...ElectronBonder-v2.2.7) (2026-10-05)
 
 
